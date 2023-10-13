@@ -1,9 +1,9 @@
 
 ## Emotes
 
-This is a Minecraft Spigot Plugin wich replaces chat messages with your own Twitch Emotes. Its simple to configure and expandable. 
+This is a Minecraft Spigot Plugin which replaces chat messages with your own Twitch emotes. Its simple to configure and expandable. 
 
-Any Emote in Chat will be replaced with unused PUA characters and your Server Texturepack will replace them with your emote you added in the pack!
+Any emote in chat will be replaced with unused PUA characters and your server texturepack will replace them with your emote you added in the pack!
 ## Tutorial
 1. add the emote to config.yml with the unused PUA character you want to use
    
