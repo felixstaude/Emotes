@@ -38,7 +38,7 @@ public class EmoteManager implements Listener {
 
     }
 
-    private Map<String, String> getReplacements() {
+    public Map<String, String> getReplacements() {
         Map<String, String> replacements = new HashMap<>();
         ConfigurationSection section = plugin.getConfig().getConfigurationSection("replacements");
         if (section != null) {

@@ -3,3 +3,7 @@ version: '${project.version}'
 main: de.felixstaude.emotes.EmotesMain
 api-version: '1.20'
 load: STARTUP
+commands:
+  emotes:
+    description: show all emotes on the server
+    usage: /emotes
