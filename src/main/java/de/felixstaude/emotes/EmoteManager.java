@@ -1,6 +1,8 @@
 package de.felixstaude.emotes;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -19,7 +21,19 @@ public class EmoteManager implements Listener {
 
     @EventHandler
     public void onPlayerChatEvent(AsyncPlayerChatEvent event){
-        event.setMessage(replaceWordsInString(event.getMessage()));
+        Player player = event.getPlayer();
+        String originalMessage = event.getMessage();
+
+        String replacedMessage = replaceWordsInString(originalMessage);
+
+        event.setCancelled(true);
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.sendMessage(String.format("<%s> %s", player.getName(), replacedMessage));
+        }
+
+        Bukkit.getConsoleSender().sendMessage(String.format("<%s> %s", player.getName(), originalMessage));
+
     }
 
     private Map<String, String> getReplacements() {
