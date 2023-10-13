@@ -10,6 +10,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EmoteManager implements Listener {
 
@@ -51,7 +53,10 @@ public class EmoteManager implements Listener {
         Map<String, String> replacements = getReplacements();
 
         for (Map.Entry<String, String> entry : replacements.entrySet()) {
-            input = input.replace(entry.getKey(), entry.getValue());
+            Pattern pattern = Pattern.compile(Pattern.quote(entry.getKey()), Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(input);
+
+            input = matcher.replaceAll(Matcher.quoteReplacement(entry.getValue()));
         }
 
         return input;
