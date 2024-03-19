@@ -15,7 +15,7 @@ Any emote in chat will be replaced with unused PUA characters and your server te
 
      (it should be 100px, 100px)
 
-3. add the emote to your defaul.json file in your serverpack in "Pack\assets\minecraft\font\default.json"
+3. add the emote to your default.json file in your serverpack in "Pack\assets\minecraft\font\default.json"
 
 ![image](https://github.com/felixstaude/Emotes/assets/87332522/143d9af5-dc56-4e3d-a71b-14a7b48b2709)
 
