@@ -9,7 +9,7 @@ Any emote in chat will be replaced with unused PUA characters and your server te
    
     here is a list of all PUA characters: https://symbl.cc/en/unicode/blocks/private-use-area/
    
-![image](https://github.com/felixstaude/Emotes/assets/87332522/1420703e-ed2e-4a54-aac9-a5ef920e6761)
+![image](https://github.com/felixstaude/Emotes/assets/87332522/f5c62ae2-795e-4a0c-92fd-f314527ecd19)
 
 2. add the emote as .png file to your serverpack in "Pack\assets\minecraft\textures"
 
