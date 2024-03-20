@@ -28,7 +28,7 @@ public class EmoteManager implements Listener {
 
         String replacedMessage = replaceWordsInString(originalMessage);
 
-        event.setCancelled(true);
+         event.setMessage(replacedMessage);
 
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage(String.format("<%s> %s", player.getName(), replacedMessage));
