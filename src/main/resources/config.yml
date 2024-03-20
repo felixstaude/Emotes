@@ -1,2 +1,7 @@
 replacements:
-  kok: ""
+  kok:
+    names: [":kok:", "kokcat", "kok"]
+    char: ""
+  kappa:
+    names: [":kappa:", "Kappa"]
+    char: ""

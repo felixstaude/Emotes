@@ -12,9 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.List;
+
 
 public class EmoteManager implements Listener {
-
     private final JavaPlugin plugin;
 
     public EmoteManager(JavaPlugin plugin) {
@@ -22,40 +23,62 @@ public class EmoteManager implements Listener {
     }
 
     @EventHandler
-    public void onPlayerChatEvent(AsyncPlayerChatEvent event){
+    public void onPlayerChatEvent(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         String originalMessage = event.getMessage();
 
-        String replacedMessage = replaceWordsInString(originalMessage);
-
-         event.setMessage(replacedMessage);
+        String replacedMessage = replaceEmotesInString(originalMessage);
+        event.setMessage(replacedMessage);
 
         Bukkit.getConsoleSender().sendMessage(String.format("<%s> %s", player.getName(), originalMessage));
-
     }
 
-    public Map<String, String> getReplacements() {
-        Map<String, String> replacements = new HashMap<>();
+    private Map<String, Emote> getEmotes() {
+        Map<String, Emote> emotes = new HashMap<>();
         ConfigurationSection section = plugin.getConfig().getConfigurationSection("replacements");
         if (section != null) {
             for (String key : section.getKeys(false)) {
-                replacements.put(key, section.getString(key));
+                List<String> name = section.getStringList(key + ".names");
+                String charRepresentation = section.getString(key + ".char");
+                emotes.put(key, new Emote(name, charRepresentation));
             }
         }
-        return replacements;
+        return emotes;
     }
 
-    private String replaceWordsInString(String input) {
-        Map<String, String> replacements = getReplacements();
+    private String replaceEmotesInString(String input) {
+        Map<String, Emote> emotes = getEmotes();
 
-        for (Map.Entry<String, String> entry : replacements.entrySet()) {
-            Pattern pattern = Pattern.compile(Pattern.quote(entry.getKey()), Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(input);
-
-            input = matcher.replaceAll(Matcher.quoteReplacement(entry.getValue()));
+        for (Emote emote : emotes.values()) {
+            for (String alias : emote.getNames()) {
+                Pattern pattern = Pattern.compile(Pattern.quote(alias), Pattern.CASE_INSENSITIVE);
+                Matcher matcher = pattern.matcher(input);
+                if (matcher.find()) {
+                    input = matcher.replaceAll(Matcher.quoteReplacement(emote.getCharRepresentation()));
+                }
+            }
         }
 
         return input;
     }
 
+    private static class Emote {
+
+        private List<String> names;
+        private String charRepresentation;
+
+        public Emote(List<String> names, String charRepresentation) {
+            this.names = names;
+            this.charRepresentation = charRepresentation;
+        }
+
+        public List<String> getNames() {
+            return names;
+        }
+
+        public String getCharRepresentation() {
+            return charRepresentation;
+        }
+    }
 }
+

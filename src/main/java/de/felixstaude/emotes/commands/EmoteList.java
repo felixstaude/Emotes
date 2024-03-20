@@ -8,6 +8,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 public class EmoteList implements CommandExecutor {
@@ -22,39 +26,28 @@ public class EmoteList implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage("Dieser Befehl kann nur von Spielern verwendet werden!");
+            commandSender.sendMessage("This command can only used by players!");
             return true;
         }
 
         Player player = (Player) commandSender;
 
         if (command.getName().equalsIgnoreCase("emotes")) {
+
             if(strings.length > 0){
                 if(strings[0].equalsIgnoreCase("info")){
                     player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Emotes Info:");
-                    player.sendMessage(ChatColor.GRAY + "> Groß- und Kleinschreibung sind nicht wichtig bei den Emotes");
-                    player.sendMessage(ChatColor.GRAY + "> Solltest du nur Viereckige Kästen statt Emotes sehen, lädt das Texturepack nicht richtig, betrete den Server neu. Sollte das nicht helfen, melde es dem Admin des Servers!");
+                    player.sendMessage(ChatColor.GRAY + "> The emotes are not case sensitive");
+                    player.sendMessage(ChatColor.GRAY + "> If you only see square boxes instead of emotes, the texture pack is not loading correctly. Please re-enter the server. If that doesn't help, report it to the server admin!");
                 }
                 return true;
             }
 
-            Map<String, String> replacements = getReplacements();
 
-            player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Verfügbare Emotes:");
-            for (Map.Entry<String, String> entry : replacements.entrySet()) {
-                player.sendMessage(ChatColor.BOLD + "" + ChatColor.DARK_GRAY + "> "
-                        + ChatColor.GRAY + entry.getKey() +
-                        ChatColor.BOLD + "" + ChatColor.DARK_GRAY + " -> "
-                        + ChatColor.WHITE + entry.getValue());
-            }
+            player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Available emotes:");
         }
-
         return true;
     }
 
 
-    private Map<String, String> getReplacements() {
-        EmoteManager emoteManager = new EmoteManager(plugin);
-        return emoteManager.getReplacements();
-    }
 }
