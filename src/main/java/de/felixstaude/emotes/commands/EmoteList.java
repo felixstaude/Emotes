@@ -1,18 +1,14 @@
 package de.felixstaude.emotes.commands;
 
-import de.felixstaude.emotes.EmoteManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 
 public class EmoteList implements CommandExecutor {
 
@@ -26,7 +22,7 @@ public class EmoteList implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage("This command can only used by players!");
+            commandSender.sendMessage("This command can only be used by players!");
             return true;
         }
 
@@ -36,18 +32,26 @@ public class EmoteList implements CommandExecutor {
 
             if(strings.length > 0){
                 if(strings[0].equalsIgnoreCase("info")){
-                    player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Emotes Info:");
-                    player.sendMessage(ChatColor.GRAY + "> The emotes are not case sensitive");
-                    player.sendMessage(ChatColor.GRAY + "> If you only see square boxes instead of emotes, the texture pack is not loading correctly. Please re-enter the server. If that doesn't help, report it to the server admin!");
+                    player.sendMessage("§3§lEmotes Info:");
+                    player.sendMessage("§7> The emotes are not case sensitive");
+                    player.sendMessage("§7> If you only see square boxes instead of emotes, the texture pack is not loading correctly. Please re-enter the server. If that doesn't help, report it to the server admin!");
+                    return true;
                 }
-                return true;
             }
 
+            player.sendMessage("§3§lAvailable emotes:");
+            player.sendMessage(" ");
+            ConfigurationSection section = plugin.getConfig().getConfigurationSection("replacements");
+            if (section != null) {
+                for (String key : section.getKeys(false)) {
+                    List<String> names = section.getStringList(key + ".names");
+                    String charRepresentation = section.getString(key + ".char");
+                    player.sendMessage(charRepresentation + " §8- §6" + String.join(", ", names));
+                }
+            }
 
-            player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Available emotes:");
+            return true;
         }
-        return true;
+        return false;
     }
-
-
 }
